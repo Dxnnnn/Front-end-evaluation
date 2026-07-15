@@ -1,7 +1,7 @@
 export interface AdminNavItem {
   label: string;
   href: string;
-  icon: "dashboard" | "evaluations" | "faculty" | "reports" | "settings";
+  icon: "dashboard" | "evaluations" | "faculty" | "reports" | "reminders";
 }
 
 export const adminNavItems: AdminNavItem[] = [
@@ -9,7 +9,7 @@ export const adminNavItems: AdminNavItem[] = [
   { label: "Evaluations", href: "/admin/evaluations", icon: "evaluations" },
   { label: "Faculty", href: "/admin/faculty", icon: "faculty" },
   { label: "Reports", href: "/admin/reports", icon: "reports" },
-  { label: "Settings", href: "/admin/settings", icon: "settings" },
+  { label: "Reminders", href: "/admin/reminders", icon: "reminders" },
 ];
 
 export const dashboardStats = [

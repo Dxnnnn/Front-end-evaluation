@@ -7,10 +7,10 @@ export default function LoginPage() {
   const logoSrc = getLogoSrc();
 
   return (
-    <div className="relative flex min-h-full flex-1 items-center justify-center overflow-hidden bg-slate-100 px-4 py-10">
+    <div className="relative min-h-screen overflow-y-auto bg-slate-100 px-4 py-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(30,64,175,0.14),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(243,109,33,0.12),transparent_38%)]" />
 
-      <div className="relative w-full max-w-md">
+      <div className="relative mx-auto w-full max-w-md">
         <div className="mb-8 text-center">
           <Image
             src={logoSrc}
