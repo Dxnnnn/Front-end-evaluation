@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import type { AuthUser } from "@/lib/types/auth";
 import { PasswordToggle } from "@/components/auth/password-toggle";
+import { AuthLoadingScreen } from "@/components/auth/auth-loading-screen";
 
 export function SignupForm() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export function SignupForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,6 +29,7 @@ export function SignupForm() {
     }
 
     setIsSubmitting(true);
+    setShowLoadingScreen(true);
 
     try {
       const response = await fetch("/api/auth/signup", {
@@ -42,6 +45,8 @@ export function SignupForm() {
 
       if (!response.ok) {
         setError(data.error ?? "Unable to create account. Please try again.");
+        setShowLoadingScreen(false);
+        setIsSubmitting(false);
         return;
       }
 
@@ -52,13 +57,18 @@ export function SignupForm() {
       router.refresh();
     } catch {
       setError("Something went wrong. Please try again.");
-    } finally {
+      setShowLoadingScreen(false);
       setIsSubmitting(false);
     }
   }
 
   return (
-    <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+    <>
+      {showLoadingScreen ? (
+        <AuthLoadingScreen label="Creating your account..." />
+      ) : null}
+
+      <form className="space-y-5" onSubmit={handleSubmit} noValidate>
       <div className="space-y-2">
         <label
           htmlFor="name"
@@ -163,10 +173,11 @@ export function SignupForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="flex w-full items-center justify-center rounded-xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-70"
+        className="flex w-full shrink-0 items-center justify-center rounded-xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-70"
       >
         {isSubmitting ? "Creating account..." : "Create account"}
       </button>
     </form>
+    </>
   );
 }

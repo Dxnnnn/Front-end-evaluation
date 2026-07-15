@@ -29,18 +29,20 @@ export function SidebarEdgeToggle({
         >
           <path
             d="M0 4 Q0 0 4 0 L24 24 Q28 28 24 32 L4 56 Q0 56 0 52 Z"
-            className="fill-white stroke-slate-200 transition group-hover:fill-brand-50 group-hover:stroke-brand-200"
+            className="fill-orange-500 stroke-slate-200 transition group-hover:fill-brand-50 group-hover:stroke-brand-200"
             strokeWidth="1.5"
           />
         </svg>
         <svg
           viewBox="0 0 24 24"
           fill="none"
-          stroke="currentColor"
+          stroke="orange-500"
           strokeWidth="2.2"
-          className={`absolute top-1/2 left-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500 transition group-hover:text-brand-700 ${
-            collapsed ? "-translate-x-40%" : "-translate-x-60%"
-          }`}
+          className={
+            collapsed
+              ? "absolute top-1/2 left-1/2 h-3.5 w-3.5 -translate-x-40% -translate-y-1/2 text-slate-500 transition group-hover:text-brand-700"
+              : "absolute top-1/2 left-1/2 h-3.5 w-3.5 -translate-x-60% -translate-y-1/2 text-slate-500 transition group-hover:text-brand-700"
+          }
           aria-hidden="true"
         >
           <path

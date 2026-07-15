@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from "react";
 
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { SidebarEdgeToggle } from "@/components/admin/sidebar-edge-toggle";
+import { UserSidebar } from "@/components/user/user-sidebar";
 
-interface AdminShellProps {
+interface UserShellProps {
   children: React.ReactNode;
 }
 
-const STORAGE_KEY = "admin-sidebar-collapsed";
+const STORAGE_KEY = "user-sidebar-collapsed";
 
-export function AdminShell({ children }: AdminShellProps) {
+export function UserShell({ children }: UserShellProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export function AdminShell({ children }: AdminShellProps) {
     if (stored === "true") {
       setCollapsed(true);
     }
-  }, [setCollapsed]);
+  }, []);
 
   function handleToggle() {
     setCollapsed((current) => {
@@ -32,7 +32,7 @@ export function AdminShell({ children }: AdminShellProps) {
   return (
     <div className="flex h-screen overflow-hidden bg-slate-100">
       <div className="relative shrink-0">
-        <AdminSidebar collapsed={collapsed} />
+        <UserSidebar collapsed={collapsed} />
         <SidebarEdgeToggle collapsed={collapsed} onToggle={handleToggle} />
       </div>
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">

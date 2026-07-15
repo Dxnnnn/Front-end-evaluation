@@ -1,10 +1,5 @@
-import { AdminPlaceholderPage } from "@/components/admin/admin-placeholder";
+import { FacultyPanel } from "@/components/admin/faculty/faculty-panel";
 
 export default function FacultyPage() {
-  return (
-    <AdminPlaceholderPage
-      title="Faculty"
-      description="View and manage faculty records."
-    />
-  );
+  return <FacultyPanel />;
 }

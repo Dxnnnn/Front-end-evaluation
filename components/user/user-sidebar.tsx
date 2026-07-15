@@ -4,15 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { AdminNavIcon } from "@/components/admin/admin-icons";
 import { LogoutButton } from "@/components/auth/logout-button";
-import { adminNavItems } from "@/lib/admin/nav";
+import { UserNavIcon } from "@/components/user/user-icons";
+import { userNavItems } from "@/lib/user/nav";
 
-interface AdminSidebarProps {
+interface UserSidebarProps {
   collapsed: boolean;
 }
 
-export function AdminSidebar({ collapsed }: AdminSidebarProps) {
+export function UserSidebar({ collapsed }: UserSidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -37,16 +37,16 @@ export function AdminSidebar({ collapsed }: AdminSidebarProps) {
         {!collapsed ? (
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">Benedicto College</p>
-            <p className="truncate text-xs text-blue-100">Admin Portal</p>
+            <p className="truncate text-xs text-blue-100">Student Portal</p>
           </div>
         ) : null}
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-        {adminNavItems.map((item) => {
+        {userNavItems.map((item) => {
           const isActive =
-            item.href === "/admin"
-              ? pathname === "/admin"
+            item.href === "/user"
+              ? pathname === "/user"
               : pathname.startsWith(item.href);
 
           return (
@@ -62,7 +62,7 @@ export function AdminSidebar({ collapsed }: AdminSidebarProps) {
                   : "text-blue-100 hover:bg-white/10 hover:text-white"
               }`}
             >
-              <AdminNavIcon icon={item.icon} />
+              <UserNavIcon icon={item.icon} />
               {!collapsed ? <span>{item.label}</span> : null}
             </Link>
           );
