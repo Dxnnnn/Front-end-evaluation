@@ -10,6 +10,12 @@ Run the development server:
 npm run dev
 ```
 
+pull request 
+- git pull origin main
+
+push
+- git push origin main
+
 Open [http://localhost:3000](http://localhost:3000) with your browser. The app redirects to the login page.
 
 ### Demo accounts
