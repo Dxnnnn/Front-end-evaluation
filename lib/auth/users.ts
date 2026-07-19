@@ -4,22 +4,7 @@ interface StoredUser extends AuthUser {
   password: string;
 }
 
-const mockUsers: StoredUser[] = [
-  {
-    id: "1",
-    username: "admin",
-    name: "System Administrator",
-    role: "admin",
-    password: "admin123",
-  },
-  {
-    id: "2",
-    username: "user",
-    name: "Faculty Evaluator",
-    role: "user",
-    password: "user123",
-  },
-];
+const mockUsers: StoredUser[] = [];
 
 function toAuthUser(user: StoredUser): AuthUser {
   const { password: _password, ...authUser } = user;

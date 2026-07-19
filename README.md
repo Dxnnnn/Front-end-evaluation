@@ -14,6 +14,10 @@ pull request
 - git pull origin main
 
 push
+- git status 
+- git add . 
+- git commit -m "Update login"
+- git push origin frontend-branch (kong sa lain nga branch i push)
 - git push origin main
 
 Open [http://localhost:3000](http://localhost:3000) with your browser. The app redirects to the login page.

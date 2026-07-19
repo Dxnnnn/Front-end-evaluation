@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import type { AuthUser } from "@/lib/types/auth";
 import {
   clearRememberMe,
   getRememberMe,
@@ -14,7 +13,8 @@ import { AuthLoadingScreen } from "@/components/auth/auth-loading-screen";
 
 export function LoginForm() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -26,49 +26,58 @@ export function LoginForm() {
     const remembered = getRememberMe();
 
     if (remembered) {
-      setUsername(remembered.username);
+      setEmail(remembered.username);
       setRememberMe(true);
     }
   }, []);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     setError("");
     setIsSubmitting(true);
     setShowLoadingScreen(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, rememberMe }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
       });
 
-      const data = (await response.json()) as {
-        user?: AuthUser;
-        error?: string;
-      };
+      const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error ?? "Unable to sign in. Please try again.");
+        setError(data.message || "Invalid email or password.");
         setShowLoadingScreen(false);
         setIsSubmitting(false);
         return;
       }
 
       if (rememberMe) {
-        saveRememberMe(username);
+        saveRememberMe(email);
       } else {
         clearRememberMe();
       }
 
-      const destination =
-        data.user?.role === "admin" ? "/admin" : "/user";
+      // Save logged-in admin
+      localStorage.setItem("admin", JSON.stringify(data.admin));
 
-      router.push(destination);
+      setShowLoadingScreen(false);
+      setIsSubmitting(false);
+
+      // Redirect to admin dashboard
+      router.push("/admin");
       router.refresh();
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (error) {
+      console.error(error);
+
+      setError("Unable to connect to the server.");
       setShowLoadingScreen(false);
       setIsSubmitting(false);
     }
@@ -76,86 +85,94 @@ export function LoginForm() {
 
   return (
     <>
-      {showLoadingScreen ? (
+      {showLoadingScreen && (
         <AuthLoadingScreen label="Signing in..." />
-      ) : null}
+      )}
 
       <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-      <div className="space-y-2">
-        <label
-          htmlFor="username"
-          className="block text-sm font-medium text-slate-700"
-        >
-          Username
-        </label>
-        <input
-          id="username"
-          name="username"
-          type="text"
-          autoComplete="username"
-          required
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          placeholder="Enter your username"
-          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100"
-        />
-      </div>
 
-      <div className="space-y-2">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-slate-700"
-        >
-          Password
-        </label>
-        <div className="relative">
+        <div className="space-y-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-slate-700"
+          >
+            Email
+          </label>
+
           <input
-            id="password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            autoComplete="current-password"
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
             required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            placeholder="Enter your password"
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100"
-          />
-          <PasswordToggle
-            showPassword={showPassword}
-            onToggle={() => setShowPassword((current) => !current)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100"
           />
         </div>
-      </div>
 
-      <label className="flex cursor-pointer items-center gap-2.5">
-        <input
-          id="remember-me"
-          name="rememberMe"
-          type="checkbox"
-          checked={rememberMe}
-          onChange={(event) => setRememberMe(event.target.checked)}
-          className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-500"
-        />
-        <span className="text-sm text-slate-700">Remember me</span>
-      </label>
+        <div className="space-y-2">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-slate-700"
+          >
+            Password
+          </label>
 
-      {error ? (
-        <div
-          role="alert"
-          className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          <div className="relative">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-sm text-slate-900 outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100"
+            />
+
+            <PasswordToggle
+              showPassword={showPassword}
+              onToggle={() => setShowPassword((current) => !current)}
+            />
+          </div>
+        </div>
+
+        <label className="flex cursor-pointer items-center gap-2.5">
+          <input
+            id="remember-me"
+            name="rememberMe"
+            type="checkbox"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-500"
+          />
+
+          <span className="text-sm text-slate-700">
+            Remember me
+          </span>
+        </label>
+
+        {error && (
+          <div
+            role="alert"
+            className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          >
+            {error}
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="flex w-full items-center justify-center rounded-xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-800 disabled:opacity-70"
         >
-          {error}
-        </div>
-      ) : null}
+          {isSubmitting ? "Signing in..." : "Sign in"}
+        </button>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="flex w-full shrink-0 items-center justify-center rounded-xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {isSubmitting ? "Signing in..." : "Sign in"}
-      </button>
-    </form>
+      </form>
     </>
   );
 }
