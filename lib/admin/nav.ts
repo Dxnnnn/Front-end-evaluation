@@ -1,15 +1,15 @@
 export interface AdminNavItem {
   label: string;
   href: string;
-  icon: "dashboard" | "evaluations" | "faculty" | "reports" | "reminders";
+  icon: "dashboard" | "evaluations" | "faculty" | "accounts" | "reports";
 }
 
 export const adminNavItems: AdminNavItem[] = [
   { label: "Dashboard", href: "/admin", icon: "dashboard" },
   { label: "Evaluations", href: "/admin/evaluations", icon: "evaluations" },
   { label: "Faculty", href: "/admin/faculty", icon: "faculty" },
+  { label: "Accounts", href: "/admin/accounts", icon: "accounts" },
   { label: "Reports", href: "/admin/reports", icon: "reports" },
-  { label: "Reminders", href: "/admin/reminders", icon: "reminders" },
 ];
 
 export const dashboardStats = [

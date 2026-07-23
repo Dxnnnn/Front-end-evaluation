@@ -1,11 +1,11 @@
-import type { AdminNavItem } from "@/lib/admin/nav";
+import type { FacultyPortalNavItem } from "@/lib/faculty-portal/nav";
 
 const iconClass = "h-5 w-5 shrink-0";
 
-export function AdminNavIcon({
+export function FacultyPortalNavIcon({
   icon,
 }: {
-  icon: AdminNavItem["icon"];
+  icon: FacultyPortalNavItem["icon"];
 }) {
   switch (icon) {
     case "dashboard":
@@ -29,14 +29,6 @@ export function AdminNavIcon({
           <path strokeLinecap="round" strokeLinejoin="round" d="M22 20v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
         </svg>
       );
-    case "accounts":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={iconClass}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-          <circle cx="10" cy="8" r="3" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M20 8v6M23 11h-6" />
-        </svg>
-      );
     case "reports":
       return (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={iconClass}>
@@ -45,12 +37,4 @@ export function AdminNavIcon({
         </svg>
       );
   }
-}
-
-export function LogoutIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={iconClass}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
-    </svg>
-  );
 }

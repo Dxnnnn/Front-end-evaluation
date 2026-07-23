@@ -27,3 +27,25 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+@keyframes portal-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.portal-content-enter {
+  animation: portal-content-in 0.28s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-content-enter {
+    animation: none;
+  }
+}

@@ -17,7 +17,7 @@ export function UserSidebar({ collapsed }: UserSidebarProps) {
 
   return (
     <aside
-      className={`flex h-screen shrink-0 flex-col border-r border-brand-800 bg-brand-800 text-white transition-[width] duration-300 ${
+      className={`flex h-screen shrink-0 flex-col border-r border-emerald-800 bg-emerald-800 text-white transition-[width] duration-300 ${
         collapsed ? "w-20" : "w-64"
       }`}
     >
@@ -37,7 +37,7 @@ export function UserSidebar({ collapsed }: UserSidebarProps) {
         {!collapsed ? (
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">Benedicto College</p>
-            <p className="truncate text-xs text-blue-100">Student Portal</p>
+            <p className="truncate text-xs text-emerald-100">Student Portal</p>
           </div>
         ) : null}
       </div>
@@ -59,7 +59,7 @@ export function UserSidebar({ collapsed }: UserSidebarProps) {
               } ${
                 isActive
                   ? "bg-white/15 text-white"
-                  : "text-blue-100 hover:bg-white/10 hover:text-white"
+                  : "text-emerald-100 hover:bg-white/10 hover:text-white"
               }`}
             >
               <UserNavIcon icon={item.icon} />
@@ -72,7 +72,7 @@ export function UserSidebar({ collapsed }: UserSidebarProps) {
       <div className="border-t border-white/10 px-3 py-4">
         <LogoutButton
           collapsed={collapsed}
-          className={`flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-blue-100 transition hover:bg-white/10 hover:text-white ${
+          className={`flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-emerald-100 transition hover:bg-white/10 hover:text-white ${
             collapsed ? "justify-center" : "gap-3"
           }`}
         />

@@ -24,9 +24,6 @@ export default function LoginPage() {
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
             Teacher Evaluation Form
           </h1>
-          <p className="mt-2 text-sm text-slate-600">
-            Log in to your account or sign up to get started.
-          </p>
         </div>
 
         <div className="rounded-3xl border border-white/70 bg-white/90 p-8 shadow-xl shadow-slate-200/70 backdrop-blur">

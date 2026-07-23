@@ -3,7 +3,7 @@ import type {
   NewEvaluationSubmission,
 } from "@/lib/types/evaluation-submission";
 
-const STORAGE_KEY = "eval_user_submissions";
+const STORAGE_KEY = "eval_coordinator_submissions";
 
 function normalizeScoringAnswers(raw: unknown): Record<string, number> {
   if (!raw || typeof raw !== "object") {
@@ -98,36 +98,13 @@ function writeSubmissions(submissions: EvaluationSubmission[]) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
 }
 
-export function getEvaluationSubmissions(): EvaluationSubmission[] {
+export function getCoordinatorSubmissions(): EvaluationSubmission[] {
   return readSubmissions().sort((a, b) =>
     b.submittedAt.localeCompare(a.submittedAt),
   );
 }
 
-export function getOverallScore(answers: Record<string, number>): number {
-  const scores = Object.values(answers);
-
-  if (scores.length === 0) {
-    return 0;
-  }
-
-  return scores.reduce((sum, score) => sum + score, 0) / scores.length;
-}
-
-export function countPersonalAnswers(answers: Record<string, string>): number {
-  return Object.values(answers).filter((answer) => answer.trim().length > 0)
-    .length;
-}
-
-export function formatSubmissionDate(date: string) {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-export function addEvaluationSubmission(
+export function addCoordinatorSubmission(
   input: NewEvaluationSubmission,
 ): EvaluationSubmission {
   const submission: EvaluationSubmission = {

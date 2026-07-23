@@ -4,7 +4,8 @@ export interface EvaluationSubmission {
   facultyName: string;
   department: string;
   subject: string;
-  answers: Record<string, number>;
+  scoringAnswers: Record<string, number>;
+  personalAnswers: Record<string, string>;
   submittedAt: string;
 }
 
@@ -13,5 +14,6 @@ export interface NewEvaluationSubmission {
   facultyName: string;
   department: string;
   subject: string;
-  answers: Record<string, number>;
+  scoringAnswers: Record<string, number>;
+  personalAnswers: Record<string, string>;
 }

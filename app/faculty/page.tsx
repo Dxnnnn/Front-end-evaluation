@@ -1,32 +1,24 @@
 import Link from "next/link";
 
-import { dashboardStats, recentEvaluations } from "@/lib/admin/nav";
+import {
+  facultyDashboardStats,
+  facultyRecentEvaluations,
+} from "@/lib/faculty-portal/nav";
 
-function statusClass(status: string) {
-  switch (status) {
-    case "Completed":
-      return "bg-emerald-50 text-emerald-700";
-    case "Pending":
-      return "bg-amber-50 text-amber-700";
-    default:
-      return "bg-blue-50 text-blue-700";
-  }
-}
-
-export default function AdminDashboardPage() {
+export default function FacultyPortalDashboardPage() {
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <header className="shrink-0 border-b border-slate-200 bg-white px-6 py-5 sm:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-900">Teacher Evaluation Summary</h1>
+            <h1 className="text-2xl font-semibold text-slate-900">Coordinator Dashboard</h1>
             <p className="mt-1 text-sm text-slate-500">
-              Overview of all teacher evaluation activity and progress.
+              View evaluation scores and student feedback summaries.
             </p>
           </div>
 
           <Link
-            href="/admin/reports"
+            href="/faculty/reports"
             className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-800"
           >
             <svg
@@ -55,7 +47,7 @@ export default function AdminDashboardPage() {
 
       <main className="min-h-0 flex-1 space-y-8 overflow-y-auto px-6 py-8 sm:px-8">
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {dashboardStats.map((stat) => (
+          {facultyDashboardStats.map((stat) => (
             <article
               key={stat.label}
               className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
@@ -69,13 +61,13 @@ export default function AdminDashboardPage() {
           ))}
         </section>
 
-        <section className="flex max-h-28rem flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <section className="flex max-h-[28rem] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="shrink-0 border-b border-slate-200 px-6 py-4">
             <h2 className="text-lg font-semibold text-slate-900">
-              Recent Evaluations
+              Faculty evaluation scores
             </h2>
             <p className="mt-1 text-sm text-slate-500">
-              Latest faculty evaluation submissions and reviews.
+              Overall scores for faculty under your coordination.
             </p>
           </div>
 
@@ -83,26 +75,22 @@ export default function AdminDashboardPage() {
             <table className="min-w-full text-left text-sm">
               <thead className="sticky top-0 z-10 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                 <tr>
-                  <th className="px-6 py-3 font-medium">Faculty</th>
-                  <th className="px-6 py-3 font-medium">Department</th>
-                  <th className="px-6 py-3 font-medium">Status</th>
-                  <th className="px-6 py-3 font-medium">Date</th>
+                  <th className="px-6 py-3 font-medium">Subject</th>
+                  <th className="px-6 py-3 font-medium">Overall score</th>
+                  <th className="px-6 py-3 font-medium">Evaluations</th>
+                  <th className="px-6 py-3 font-medium">Last updated</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {recentEvaluations.map((row) => (
-                  <tr key={`${row.faculty}-${row.date}`} className="text-slate-700">
+                {facultyRecentEvaluations.map((row) => (
+                  <tr key={row.subject} className="text-slate-700">
                     <td className="px-6 py-4 font-medium text-slate-900">
-                      {row.faculty}
+                      {row.subject}
                     </td>
-                    <td className="px-6 py-4">{row.department}</td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${statusClass(row.status)}`}
-                      >
-                        {row.status}
-                      </span>
+                    <td className="px-6 py-4 font-semibold text-brand-700">
+                      {row.score}
                     </td>
+                    <td className="px-6 py-4">{row.evaluations}</td>
                     <td className="px-6 py-4">{row.date}</td>
                   </tr>
                 ))}
