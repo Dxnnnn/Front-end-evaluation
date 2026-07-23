@@ -124,69 +124,76 @@ export function LoginForm({ portal }: { portal: LoginPortal }) {
       )}
 
       <form className="space-y-5 transition-colors duration-300" onSubmit={handleSubmit} noValidate>
-      <div className="space-y-2">
-        <label
-          htmlFor="login-id"
-          className="block text-sm font-medium text-slate-700"
-        >
-          ID#
-        </label>
-        <input
-          id="login-id"
-          name="username"
-          type="text"
-          autoComplete="username"
-          required
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          placeholder={idPlaceholder}
-          className={`w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition-all duration-300 focus:ring-4 ${focusFieldClass}`}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-slate-700"
-        >
-          Password
-        </label>
-        <div className="relative">
+        <div className="space-y-2">
+          <label
+            htmlFor="login-id"
+            className="block text-sm font-medium text-slate-700"
+          >
+            ID#
+          </label>
           <input
+<<<<<<< HEAD
+            id="login-id"
+            name="username"
+            type="text"
+            autoComplete="username"
+=======
             id="email"
             name="email"
             type="email"
             autoComplete="email"
+>>>>>>> d75b4dd3bb647cba5cb01ec87210a78bf350a69a
             required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            placeholder="Enter your password"
-            className={`w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-sm text-slate-900 outline-none transition-all duration-300 focus:ring-4 ${focusFieldClass}`}
-          />
-          <PasswordToggle
-            showPassword={showPassword}
-            onToggle={() => setShowPassword((current) => !current)}
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            placeholder={idPlaceholder}
+            className={`w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition-all duration-300 focus:ring-4 ${focusFieldClass}`}
           />
         </div>
-      </div>
 
-      {error ? (
-        <div
-          role="alert"
-          className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        <div className="space-y-2">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-slate-700"
+          >
+            Password
+          </label>
+          <div className="relative">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Enter your password"
+              className={`w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-sm text-slate-900 outline-none transition-all duration-300 focus:ring-4 ${focusFieldClass}`}
+            />
+            <PasswordToggle
+              showPassword={showPassword}
+              onToggle={() => setShowPassword((current) => !current)}
+            />
+          </div>
+        </div>
+
+        {error ? (
+          <div
+            role="alert"
+            className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          >
+            {error}
+          </div>
+        ) : null}
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`flex w-full shrink-0 items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-70 ${submitButtonClass}`}
         >
-          {error}
-        </div>
-      ) : null}
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className={`flex w-full shrink-0 items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-70 ${submitButtonClass}`}
-      >
-        {isSubmitting ? "Signing in..." : "Sign in"}
-      </button>
-    </form>
+          {isSubmitting ? "Signing in..." : "Sign in"}
+        </button>
+      </form>
     </>
   );
 }
