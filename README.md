@@ -37,6 +37,16 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+pull request:
+git init
+git checkout -b frontend-branch
+git add .
+git  commit -m "update page"
+git status
+git push -u origin frontend-branch
+
+Added a new page for coordinator only: 
+
 COORDINATOR Page
 |
 |--> LOGIN PAGE
@@ -62,4 +72,4 @@ COORDINATOR Page
 |
 |
 |
-|-->
+|--> LOGOUT
