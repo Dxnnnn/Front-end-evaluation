@@ -14,7 +14,8 @@ import { AuthLoadingScreen } from "@/components/auth/auth-loading-screen";
 
 export function LoginForm({ portal }: { portal: LoginPortal }) {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -23,6 +24,7 @@ export function LoginForm({ portal }: { portal: LoginPortal }) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     setError("");
     setIsSubmitting(true);
     setShowLoadingScreen(true);
@@ -74,13 +76,10 @@ export function LoginForm({ portal }: { portal: LoginPortal }) {
         }),
       });
 
-      const data = (await response.json()) as {
-        user?: AuthUser;
-        error?: string;
-      };
+      const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error ?? "Unable to sign in. Please try again.");
+        setError(data.message || "Invalid email or password.");
         setShowLoadingScreen(false);
         setIsSubmitting(false);
         return;
@@ -95,8 +94,10 @@ export function LoginForm({ portal }: { portal: LoginPortal }) {
 
       router.push(getRoleDestination(data.user.role));
       router.refresh();
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (error) {
+      console.error(error);
+
+      setError("Unable to connect to the server.");
       setShowLoadingScreen(false);
       setIsSubmitting(false);
     }
@@ -118,9 +119,9 @@ export function LoginForm({ portal }: { portal: LoginPortal }) {
 
   return (
     <>
-      {showLoadingScreen ? (
+      {showLoadingScreen && (
         <AuthLoadingScreen label="Signing in..." />
-      ) : null}
+      )}
 
       <form className="space-y-5 transition-colors duration-300" onSubmit={handleSubmit} noValidate>
       <div className="space-y-2">
@@ -152,10 +153,10 @@ export function LoginForm({ portal }: { portal: LoginPortal }) {
         </label>
         <div className="relative">
           <input
-            id="password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            autoComplete="current-password"
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
