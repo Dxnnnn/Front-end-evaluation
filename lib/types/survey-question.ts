@@ -1,11 +1,19 @@
+export type SurveyAudience = "student" | "coordinator";
+
+export type QuestionSection = "scoring" | "personal";
+
 export interface SurveyQuestion {
   id: string;
   text: string;
+  audience: SurveyAudience;
+  section: QuestionSection;
   createdAt: string;
 }
 
 export interface NewSurveyQuestion {
   text: string;
+  audience: SurveyAudience;
+  section: QuestionSection;
 }
 
 export interface ScoreLevel {
@@ -20,3 +28,8 @@ export const scoringScale: ScoreLevel[] = [
   { value: 2, label: "Fair", description: "Below average" },
   { value: 1, label: "Poor", description: "Lowest score" },
 ];
+
+export const questionSectionLabels: Record<QuestionSection, string> = {
+  scoring: "Scoring scale",
+  personal: "Personal questionnaire",
+};

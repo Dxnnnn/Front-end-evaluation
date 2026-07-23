@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 
 import { findUserByCredentials } from "@/lib/auth/users";
-import type { LoginRequest } from "@/lib/types/auth";
+import {
+  isRoleAllowedInPortal,
+  type LoginRequest,
+} from "@/lib/types/auth";
 
 export async function POST(request: Request) {
   let body: LoginRequest;
@@ -20,7 +23,7 @@ export async function POST(request: Request) {
 
   if (!username || !password) {
     return NextResponse.json(
-      { error: "Username and password are required." },
+      { error: "ID# and password are required." },
       { status: 400 },
     );
   }
@@ -29,8 +32,23 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json(
-      { error: "Invalid username or password." },
+      { error: "Invalid ID# or password." },
       { status: 401 },
+    );
+  }
+
+  if (
+    body.expectedPortal &&
+    !isRoleAllowedInPortal(user.role, body.expectedPortal)
+  ) {
+    const portalLabel =
+      body.expectedPortal === "staff" ? "coordinator" : "student";
+
+    return NextResponse.json(
+      {
+        error: `This account is not authorized for ${portalLabel} login.`,
+      },
+      { status: 403 },
     );
   }
 

@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
 import type { AuthUser } from "@/lib/types/auth";
+import { getRoleDestination } from "@/lib/types/auth";
 import { PasswordToggle } from "@/components/auth/password-toggle";
 import { AuthLoadingScreen } from "@/components/auth/auth-loading-screen";
 
@@ -50,10 +51,14 @@ export function SignupForm() {
         return;
       }
 
-      const destination =
-        data.user?.role === "admin" ? "/admin" : "/user";
+      if (!data.user) {
+        setError("Unable to create account. Please try again.");
+        setShowLoadingScreen(false);
+        setIsSubmitting(false);
+        return;
+      }
 
-      router.push(destination);
+      router.push(getRoleDestination(data.user.role));
       router.refresh();
     } catch {
       setError("Something went wrong. Please try again.");

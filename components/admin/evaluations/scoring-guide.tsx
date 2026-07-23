@@ -3,10 +3,10 @@ import { scoringScale } from "@/lib/types/survey-question";
 export function ScoringGuide() {
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-slate-900">Scoring system</h2>
+      <h2 className="text-lg font-semibold text-slate-900">Part 1: Scoring scale</h2>
       <p className="mt-1 text-sm text-slate-500">
-        Each survey question uses a 4–1 scale, with 4 as the highest and 1 as
-        the lowest.
+        These questions use a 4–1 scale, with 4 as the highest and 1 as the
+        lowest.
       </p>
 
       <ul className="mt-4 space-y-2">

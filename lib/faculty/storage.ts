@@ -100,6 +100,14 @@ export function getFaculty(): Faculty[] {
   return readFaculty().sort((a, b) => a.name.localeCompare(b.name));
 }
 
+export function getFacultyByDepartment(department: string): Faculty[] {
+  const normalized = department.trim().toLowerCase();
+
+  return getFaculty().filter(
+    (member) => member.department.trim().toLowerCase() === normalized,
+  );
+}
+
 export function addFaculty(input: NewFaculty): Faculty {
   const faculty: Faculty = {
     id: crypto.randomUUID(),

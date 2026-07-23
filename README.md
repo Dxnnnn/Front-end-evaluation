@@ -1,6 +1,6 @@
-# Front-end-evaluation
 
-Teacher Evaluation Form — Benedicto College capstone project built with Next.js.
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
@@ -31,5 +31,31 @@ Open [http://localhost:3000](http://localhost:3000) with your browser. The app r
 
 ## Learn More
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Learn Next.js](https://nextjs.org/learn)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+COORDINATOR Page
+|
+|--> LOGIN PAGE
+|
+|--> DASHBOARD
+|
+|
+|--> EVALUATION
+|         |
+|         *--> CREATE OR EDITING OF EVALUATION QUESTIONS
+|
+|--> FACULTY
+|         |
+|         *--> ADD OR EDITING OF FACULTY LIST
+|
+|--> REPORTS
+|         |
+|          *--> CREATE OR EDITING OF EVALUATION QUESTIONS
+|
+|--> EVALUATION
+|         |
+|         *--> CREATE OR EDITING OF EVALUATION QUESTIONS
+|
+|
+|
+|-->

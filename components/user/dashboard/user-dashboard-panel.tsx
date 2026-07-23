@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { getFaculty } from "@/lib/faculty/storage";
 import {
+  countPersonalAnswers,
   formatSubmissionDate,
   getEvaluationSubmissions,
   getOverallScore,
@@ -38,7 +39,7 @@ export function UserDashboardPanel() {
 
   const stats = useMemo(() => {
     const overallScores = submissions.map((submission) =>
-      getOverallScore(submission.answers),
+      getOverallScore(submission.scoringAnswers),
     );
     const averageScore =
       overallScores.length === 0
@@ -48,6 +49,11 @@ export function UserDashboardPanel() {
     const teachersEvaluated = new Set(
       submissions.map((submission) => submission.facultyId),
     ).size;
+    const personalResponses = submissions.reduce(
+      (sum, submission) =>
+        sum + countPersonalAnswers(submission.personalAnswers),
+      0,
+    );
 
     return [
       {
@@ -61,20 +67,20 @@ export function UserDashboardPanel() {
       {
         label: "Average Score Given",
         value: averageScore === 0 ? "—" : averageScore.toFixed(2),
-        change: `Out of ${maxOverallScore} maximum`,
+        change: `From scoring scale, out of ${maxOverallScore}`,
+      },
+      {
+        label: "Personal Responses",
+        value: String(personalResponses),
+        change: "Written answers submitted",
       },
       {
         label: "Teachers Evaluated",
         value: String(teachersEvaluated),
-        change: "Unique faculty you have rated",
-      },
-      {
-        label: "Available Faculty",
-        value: String(availableFaculty),
-        change: "Across all departments",
+        change: "Unique faculty you have evaluated",
       },
     ];
-  }, [submissions, availableFaculty]);
+  }, [submissions]);
 
   return (
     <>
@@ -99,14 +105,15 @@ export function UserDashboardPanel() {
             Recent Overall Scores
           </h2>
           <p className="mt-1 text-sm text-slate-500">
-            Your latest overall scores for each teacher and subject you evaluated.
+            Your latest scoring results and personal responses for each
+            evaluation.
           </p>
         </div>
 
         {submissions.length === 0 ? (
           <div className="px-6 py-12 text-center text-sm text-slate-500">
             No evaluations submitted yet. Complete the evaluation form to see
-            your scores here.
+            your results here.
           </div>
         ) : (
           <div className="min-h-0 flex-1 overflow-y-auto overflow-x-auto">
@@ -115,14 +122,14 @@ export function UserDashboardPanel() {
                 <tr>
                   <th className="px-6 py-3 font-medium">Faculty</th>
                   <th className="px-6 py-3 font-medium">Subject</th>
-                  <th className="px-6 py-3 font-medium">Department</th>
                   <th className="px-6 py-3 font-medium">Overall score</th>
+                  <th className="px-6 py-3 font-medium">Personal responses</th>
                   <th className="px-6 py-3 font-medium">Date</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {submissions.map((submission) => {
-                  const overallScore = getOverallScore(submission.answers);
+                  const overallScore = getOverallScore(submission.scoringAnswers);
                   const scorePercent = (overallScore / maxOverallScore) * 100;
 
                   return (
@@ -131,19 +138,25 @@ export function UserDashboardPanel() {
                         {submission.facultyName}
                       </td>
                       <td className="px-6 py-4">{submission.subject}</td>
-                      <td className="px-6 py-4">{submission.department}</td>
                       <td className="px-6 py-4">
-                        <div className="flex min-w-[180px] items-center gap-3">
-                          <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
-                            <div
-                              className={`h-full rounded-full ${scoreBarClass(overallScore)}`}
-                              style={{ width: `${scorePercent}%` }}
-                            />
+                        {Object.keys(submission.scoringAnswers).length === 0 ? (
+                          "—"
+                        ) : (
+                          <div className="flex min-w-[180px] items-center gap-3">
+                            <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
+                              <div
+                                className={`h-full rounded-full ${scoreBarClass(overallScore)}`}
+                                style={{ width: `${scorePercent}%` }}
+                              />
+                            </div>
+                            <span className="w-14 text-right font-semibold text-slate-900">
+                              {overallScore.toFixed(2)}
+                            </span>
                           </div>
-                          <span className="w-14 text-right font-semibold text-slate-900">
-                            {overallScore.toFixed(2)}
-                          </span>
-                        </div>
+                        )}
+                      </td>
+                      <td className="px-6 py-4">
+                        {countPersonalAnswers(submission.personalAnswers)} answered
                       </td>
                       <td className="px-6 py-4">
                         {formatSubmissionDate(submission.submittedAt)}
