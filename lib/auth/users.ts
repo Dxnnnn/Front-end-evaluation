@@ -4,13 +4,6 @@ interface StoredUser extends AuthUser {
   password: string;
 }
 
-const adminUser: StoredUser = {
-  id: "1",
-  username: "admin",
-  name: "System Administrator",
-  role: "admin",
-  password: "admin123",
-};
 
 function toAuthUser(user: StoredUser): AuthUser {
   const { password: _password, ...authUser } = user;
